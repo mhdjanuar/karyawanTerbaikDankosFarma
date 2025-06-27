@@ -50,10 +50,10 @@
             END
         ) DESC
     ) AS peringkat
-FROM saw_kinerja_karyawan_biznet.alternatif AS a
-JOIN saw_kinerja_karyawan_biznet.employees AS p ON a.id_employee = p.id
-JOIN saw_kinerja_karyawan_biznet.sub_criteria AS sc ON a.id_sub_kreteria = sc.id
-JOIN saw_kinerja_karyawan_biznet.criteria AS c ON sc.id_kreteria = c.id
+FROM saw_karyawan_dankos_farma.alternatif AS a
+JOIN saw_karyawan_dankos_farma.employees AS p ON a.id_employee = p.id
+JOIN saw_karyawan_dankos_farma.sub_criteria AS sc ON a.id_sub_kreteria = sc.id
+JOIN saw_karyawan_dankos_farma.criteria AS c ON sc.id_kreteria = c.id
 
 -- Subquery untuk menghitung nilai pembagi tiap kriteria
 JOIN (

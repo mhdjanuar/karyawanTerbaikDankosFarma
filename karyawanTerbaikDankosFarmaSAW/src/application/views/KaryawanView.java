@@ -42,27 +42,34 @@ public class KaryawanView extends javax.swing.JFrame {
     public String selectedId;
     
     public void getAllData() {
-            // Ambil data karyawan dari database
-            List<KaryawanModel> karyawanList = karyawanDao.findAll();
+        // Ambil data karyawan dari database
+        List<KaryawanModel> karyawanList = karyawanDao.findAll();
 
-            // Set Model untuk JTable
-            DefaultTableModel model = new DefaultTableModel();
-            model.setColumnIdentifiers(new Object[]{
-                "ID Karyawan", "Nama", "Jabatan",
+        // Siapkan model tabel
+        DefaultTableModel model = new DefaultTableModel();
+        model.setColumnIdentifiers(new Object[]{
+            "ID Karyawan", "No", "Nama Karyawan", "Jabatan"
+        });
+
+        int no = 1;
+        for (KaryawanModel karyawan : karyawanList) {
+            model.addRow(new Object[]{
+                karyawan.getId(),    // Kolom ID (disembunyikan)
+                no++,                // Nomor urut
+                karyawan.getName(),
+                karyawan.getJabatan()
             });
-
-            // Masukkan data karyawan ke dalam model JTable
-            for (KaryawanModel karyawan : karyawanList) {
-                model.addRow(new Object[]{
-                    karyawan.getId(),
-                    karyawan.getName(),
-                    karyawan.getJabatan()
-                });
-            }
-
-            // Set model ke JTable
-            jTable2.setModel(model);
         }
+
+        // Set model ke JTable
+        jTable2.setModel(model);
+
+        // Sembunyikan kolom ID Karyawan (kolom ke-0)
+        jTable2.getColumnModel().getColumn(0).setMinWidth(0);
+        jTable2.getColumnModel().getColumn(0).setMaxWidth(0);
+        jTable2.getColumnModel().getColumn(0).setWidth(0);
+    }
+
     
     public void clearForm() {
         // Clear all the text fields
@@ -90,8 +97,8 @@ public class KaryawanView extends javax.swing.JFrame {
                 int selectedRow = jTable2.getSelectedRow();
 
                 // Ambil data dari baris yang diklik
-                String nama = jTable2.getValueAt(selectedRow, 1).toString();
-                String jabatan = jTable2.getValueAt(selectedRow, 2).toString();
+                String nama = jTable2.getValueAt(selectedRow, 2).toString();
+                String jabatan = jTable2.getValueAt(selectedRow, 3).toString();
                 
                 this.selectedId = jTable2.getValueAt(selectedRow, 0).toString();
 

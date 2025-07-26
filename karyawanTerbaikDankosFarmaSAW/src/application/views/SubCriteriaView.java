@@ -46,19 +46,34 @@ public class SubCriteriaView extends javax.swing.JFrame {
     private final Map<String, Integer> criteriaMap = new HashMap<>();
     
     public void getAllData() {
+        // Ambil data sub-kriteria dari database
         List<SubCriteriaModel> subCriteriaList = subCriteriaDao.findAll();
-        
-        DefaultTableModel model = new DefaultTableModel();
-        model.setColumnIdentifiers(new Object[]{"ID", "Kriteria", "Deksripsi", "Bobot"}); // Adjust column names as needed
 
-        // Populate the model with data from spareparts
+        // Siapkan model tabel
+        DefaultTableModel model = new DefaultTableModel();
+        model.setColumnIdentifiers(new Object[]{"ID", "No", "Kriteria", "Deskripsi", "Bobot"});
+
+        // Tambahkan data ke model
+        int no = 1;
         for (SubCriteriaModel subCriteria : subCriteriaList) {
-            model.addRow(new Object[]{subCriteria.getId(), subCriteria.getNameCriteria(), subCriteria.getDeskripsi(), subCriteria.getBobot()}); // Add more attributes as needed
+            model.addRow(new Object[]{
+                subCriteria.getId(),             // Disembunyikan
+                no++,                            // Nomor urut
+                subCriteria.getNameCriteria(),  // Kriteria
+                subCriteria.getDeskripsi(),     // Deskripsi
+                subCriteria.getBobot()          // Bobot
+            });
         }
-        
-        // Set the table model to jTable1
+
+        // Set model ke JTable
         jTable1.setModel(model);
+
+        // Sembunyikan kolom ID (kolom ke-0)
+        jTable1.getColumnModel().getColumn(0).setMinWidth(0);
+        jTable1.getColumnModel().getColumn(0).setMaxWidth(0);
+        jTable1.getColumnModel().getColumn(0).setWidth(0);
     }
+
     
      public void getCriteriaComboBox() {
         List<CriteriaModel> criteriaList = criteriaDao.findAll();
@@ -97,9 +112,9 @@ public class SubCriteriaView extends javax.swing.JFrame {
                 int selectedRow = jTable1.getSelectedRow();
                 if (selectedRow != -1) {
                     // Ambil nilai dari kolom tabel
-                    String deskripsi = jTable1.getValueAt(selectedRow, 2).toString();
-                    String jumlahBobot = jTable1.getValueAt(selectedRow, 3).toString();
-                    String namaKriteria = jTable1.getValueAt(selectedRow, 1).toString();
+                    String namaKriteria = jTable1.getValueAt(selectedRow, 2).toString();
+                    String deskripsi = jTable1.getValueAt(selectedRow, 3).toString();
+                    String jumlahBobot = jTable1.getValueAt(selectedRow, 4).toString();
 
                     // Set ke textfield
                     jTextArea1.setText(deskripsi);
